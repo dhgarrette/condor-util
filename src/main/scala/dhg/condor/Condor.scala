@@ -6,8 +6,8 @@ import dhg.util.StringUtil._
 import dhg.util.Pattern._
 
 /**
- * target/start dhg.condor.CondorFromFile runsfile
- * target/start dhg.condor.CondorFromFile rerun runsfile name
+ * target/start dhg.condor.CondorFromFile 16g runsfile
+ * target/start dhg.condor.CondorFromFile rerun 16g runsfile name
  */
 class Condor(
   stagingDir: String,
@@ -74,16 +74,20 @@ class Condor(
 
 object CondorFromFile {
   def main(args: Array[String]): Unit = {
+    val MemGRe = """(?i)(\d+)g""".r
+
     args.head match {
       case "rerun" =>
-        val Seq(_, filename, name) = args.toList
+        val Seq(_, mem, filename, name) = args.toList
+        val memInt = mem match { case UInt(m) => m; case MemGRe(UInt(m)) => m * 1000 }
         val Seq(classname, argstring) = name.lsplit("_", 2)
-        new Condor(pathjoin("condorfiles", filename.split("\\.").head))
+        new Condor(pathjoin("condorfiles", filename.split("\\.").head), memInt)
           .makeNamed(Vector((classname, argstring.replace("_", " "))))
       case _ =>
-        val Seq(filename) = args.toList
+        val Seq(mem, filename) = args.toList
+        val memInt = mem match { case UInt(m) => m; case MemGRe(UInt(m)) => m * 1000 }
         val lines = File(filename).readLines.toVector
-        new Condor(pathjoin("condorfiles", filename.split("\\.").head))
+        new Condor(pathjoin("condorfiles", filename.split("\\.").head), memInt)
           .makeNamed(lines.filter(_.nonEmpty).map { line =>
             val Seq(_, classname, argstring) = line.lsplit("\\s+", 3)
             (classname, argstring)
