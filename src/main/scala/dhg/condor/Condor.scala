@@ -33,6 +33,7 @@ class Condor(
     writeUsing(File(stagingDir, "main.config")) { w =>
       w.writeLine("universe = vanilla")
       w.writeLine("getenv = True")
+      w.writeLine(f"""environment = "JAVA_OPTS=${memory}m"""")
       w.writeLine("")
       w.writeLine("Executable = /bin/sh")
       w.writeLine("")
