@@ -14,7 +14,6 @@ class Condor(
   memory: Int = 4000) {
 
   def makeNamed(classnamesAndArgs: Vector[(String, String)]): Unit = {
-    val digits = math.log10(classnamesAndArgs.size).toInt + 1
     makeWithNames(classnamesAndArgs.mapt {
       case (c, a) => (c, a, (c +: a.split("\\s+")).mkString("_"))
     })
