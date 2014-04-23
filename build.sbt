@@ -4,7 +4,7 @@ name := "condor-util"
 
 version := "0.0.1"
 
-scalaVersion := "2.10.4"
+scalaVersion := "2.11.0"
 
 resolvers ++= Seq(
   "dhg releases repo" at "http://www.cs.utexas.edu/~dhg/maven-repository/releases",
@@ -12,14 +12,9 @@ resolvers ++= Seq(
 )
 
 libraryDependencies ++= Seq(
-   "dhg" % "scala-util_2.10" % "1.0.0-SNAPSHOT",
-   "org.scalanlp" % "chalk" % "1.3.0",
-   "cc.mallet" % "mallet" % "2.0.7",
-   "org.scalanlp" % "breeze_2.10" % "0.5.2",
-   "com.typesafe" % "scalalogging-log4j_2.10" % "1.0.1",
-   "org.apache.logging.log4j" % "log4j-core" % "2.0-beta3",
-   "junit" % "junit" % "4.10" % "test",
-   "com.novocode" % "junit-interface" % "0.8" % "test->default"
+   "dhg" % "scala-util_2.11" % "1.0.0-SNAPSHOT",
+   "junit" % "junit" % "4.11" % "test",
+   "com.novocode" % "junit-interface" % "0.10" % "test"
   )
 
 seq(SbtStartScript.startScriptForClassesSettings: _*)
