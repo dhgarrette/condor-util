@@ -66,6 +66,7 @@ class Condor(
     writeUsing(File(stagingDir, "main.sh")) { w =>
       w.writeLine(s"/lusr/opt/condor/bin/condor_submit ${pathjoin(stagingDir, "main.config")}")
     }
+    println(f"Total jobs: ${classnamesArgsAndFilenames.size}")
     println("sh " + pathjoin(stagingDir, "main.sh"))
   }
 
