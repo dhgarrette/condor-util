@@ -2,7 +2,9 @@ import com.typesafe.sbt.SbtStartScript
 
 name := "condor-util"
 
-version := "0.0.1"
+version := "0.0.1-SNAPSHOT"
+
+organization := "dhg"
 
 scalaVersion := "2.11.2"
 
