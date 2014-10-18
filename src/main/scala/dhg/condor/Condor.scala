@@ -11,7 +11,8 @@ import dhg.util.Pattern._
  */
 class Condor(
   stagingDir: String,
-  memory: Int = 4000) {
+  memory: Int = 4000,
+  gpu: Boolean = false) {
 
   def makeNamed(classnamesAndArgs: Vector[(String, String)]): Unit = {
     makeWithNames(classnamesAndArgs.mapt {
@@ -36,7 +37,15 @@ class Condor(
       w.writeLine("")
       w.writeLine("Executable = /bin/sh")
       w.writeLine("")
-      w.writeLine(s"""Requirements = InMastodon && (Memory >= $memory) && (ARCH == "X86_64")""")
+
+      if (!gpu) {
+        w.writeLine(s"""Requirements = InMastodon && (Memory >= $memory) && (ARCH == "X86_64")""")
+      }
+      else {
+        w.writeLine(s"""Requirements = (ARCH == "X86_64") && GPU""")
+        w.writeLine(s"""request_memory = ${memory}""")
+      }
+
       w.writeLine("+Group   = \"GRAD\"")
       w.writeLine("+Project = \"AI_ROBOTICS\"")
       w.writeLine("+ProjectDescription = \"description\"")
