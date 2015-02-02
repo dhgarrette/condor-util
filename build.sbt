@@ -2,11 +2,11 @@ import com.typesafe.sbt.SbtStartScript
 
 name := "condor-util"
 
-version := "0.0.1-SNAPSHOT"
+version := "0.0.2-SNAPSHOT"
 
 organization := "dhg"
 
-scalaVersion := "2.11.2"
+scalaVersion := "2.11.5"
 
 resolvers ++= Seq(
   "dhg releases repo" at "http://www.cs.utexas.edu/~dhg/maven-repository/releases",
@@ -14,7 +14,7 @@ resolvers ++= Seq(
 )
 
 libraryDependencies ++= Seq(
-   "dhg" % "scala-util_2.11" % "1.0.0-SNAPSHOT",
+   "dhg" % "scala-util_2.11" % "0.0.2-SNAPSHOT",
    "junit" % "junit" % "4.11" % "test",
    "com.novocode" % "junit-interface" % "0.10" % "test"
   )
