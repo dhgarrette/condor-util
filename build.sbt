@@ -6,7 +6,7 @@ version := "0.0.2-SNAPSHOT"
 
 organization := "dhg"
 
-scalaVersion := "2.11.5"
+scalaVersion := "2.11.6"
 
 resolvers ++= Seq(
   "dhg releases repo" at "http://www.cs.utexas.edu/~dhg/maven-repository/releases",
