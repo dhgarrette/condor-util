@@ -1,6 +1,6 @@
 package dhg.condor
 
-import dhg.util.Util._
+import dhg.util._
 
 /**
  * target/start dhg.condor.CondorFromFile 16g runsfile
