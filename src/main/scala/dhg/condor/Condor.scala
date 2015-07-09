@@ -8,7 +8,7 @@ import dhg.util._
  */
 class Condor(
   stagingDir: String,
-  memory: Int = 4000,
+  memory: Option[Int] = Some(4000),
   gpu: Boolean = false) {
 
   def makeNamed(classnamesAndArgs: Vector[(String, String)]): Unit = {
@@ -36,7 +36,7 @@ class Condor(
       w.writeLine("")
 
       if (!gpu) {
-        w.writeLine(s"""Requirements = InMastodon && (Memory >= $memory) && (ARCH == "X86_64")""")
+        w.writeLine(s"""Requirements = InMastodon && ${memory.fold("")(m => s"(Memory >= $m) &&")} (ARCH == "X86_64")""")
       }
       else {
         w.writeLine(s"""Requirements = (ARCH == "X86_64") && GPU""")
@@ -85,13 +85,13 @@ object CondorFromFile {
     args.head match {
       case "rerun" =>
         val Seq(_, mem, filename, name) = args.toList
-        val memInt = mem match { case UInt(m) => m; case MemGRe(UInt(m)) => m * 1000 }
+        val memInt = mem match { case UInt(m) => Some(m); case MemGRe(UInt(m)) => Some(m * 1000); case _ => None }
         val Seq(classname, argstring) = name.lsplit("_", 2)
         new Condor(pathjoin("condorfiles", filename.split("\\.").head), memInt)
           .makeNamed(Vector((classname, argstring.replace("_", " "))))
       case _ =>
         val Seq(mem, filename) = args.toList
-        val memInt = mem match { case UInt(m) => m; case MemGRe(UInt(m)) => m * 1000 }
+        val memInt = mem match { case UInt(m) => Some(m); case MemGRe(UInt(m)) => Some(m * 1000); case _ => None }
         val lines = File(filename).readLines.toVector
         new Condor(pathjoin("condorfiles", filename.split("\\.").head), memInt)
           .makeNamed(lines.filter(_.nonEmpty).map { line =>
