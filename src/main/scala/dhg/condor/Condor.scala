@@ -40,7 +40,7 @@ class Condor(
       }
       else {
         w.writeLine(s"""Requirements = (ARCH == "X86_64") && GPU""")
-        w.writeLine(s"""request_memory = ${memory}""")
+        memory.foreach { mem => w.writeLine(s"""request_memory = ${mem}""") }
       }
 
       w.writeLine("+Group   = \"GRAD\"")
